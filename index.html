@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>André Ramirez — Operations & AI Implementation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #eef0f3;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 48px 20px;
+  }
+
+  .page {
+    background: #fff;
+    max-width: 740px;
+    width: 100%;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07), 0 8px 32px rgba(0,0,0,0.06);
+    padding: 44px 48px;
+  }
+
+  /* HEADER */
+  .header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 12px;
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #eee;
+  }
+  .name { font-size: 26px; font-weight: 600; color: #111; letter-spacing: -0.5px; }
+  .tagline { font-size: 10.5px; color: #999; margin-top: 5px; letter-spacing: 1px; text-transform: uppercase; }
+  .contact-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; margin-top: 2px; }
+  .contact-item { font-size: 11.5px; color: #666; }
+  .contact-item a { color: #4a6fa5; text-decoration: none; }
+  .contact-item a:hover { text-decoration: underline; }
+
+  /* POSITIONING */
+  .positioning {
+    background: #f6f8fd;
+    border-left: 3px solid #4a6fa5;
+    border-radius: 0 8px 8px 0;
+    padding: 13px 16px;
+    margin-bottom: 20px;
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: #2a2a2a;
+  }
+
+  /* SECTION LABEL */
+  .section-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #bbb; margin-bottom: 10px; }
+
+  /* PROOF GRID */
+  .section { margin-bottom: 20px; }
+  .proof-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .proof-card { border: 1px solid #eef0f3; border-radius: 9px; padding: 11px 13px; background: #fafafa; }
+  .proof-stat { font-size: 15px; font-weight: 600; color: #4a6fa5; margin-bottom: 1px; line-height: 1; }
+  .proof-title { font-size: 11.5px; font-weight: 500; color: #333; margin-bottom: 3px; margin-top: 2px; }
+  .proof-detail { font-size: 11px; color: #888; line-height: 1.5; }
+
+  /* AI CARDS */
+  .ai-section { margin-bottom: 20px; }
+  .ai-card { border: 1px solid #eef0f3; border-radius: 9px; padding: 11px 14px; margin-bottom: 8px; background: #fafafa; border-left: 3px solid #7fa8c9; }
+  .ai-card:last-child { margin-bottom: 0; }
+  .ai-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+  .ai-title { font-size: 12px; font-weight: 500; color: #222; }
+  .ai-date { font-size: 11px; color: #bbb; }
+  .ai-detail { font-size: 11px; color: #666; line-height: 1.55; }
+  .ai-stack { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
+  .ai-pill { font-size: 10px; padding: 2px 9px; border-radius: 20px; background: #edf2f8; color: #4a6fa5; border: 1px solid #d8e4f0; font-weight: 500; }
+
+  /* EXPERIENCE */
+  .exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+  .exp-item { padding-bottom: 11px; margin-bottom: 11px; border-bottom: 1px solid #f3f3f3; }
+  .exp-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .exp-role { font-size: 12px; font-weight: 500; color: #222; }
+  .exp-company { font-size: 11px; color: #888; margin-top: 1px; }
+  .exp-dates { font-size: 10.5px; color: #bbb; margin-top: 1px; }
+  .exp-detail { font-size: 11px; color: #666; margin-top: 4px; line-height: 1.5; }
+
+  /* QUOTE */
+  .quote-block { border-left: 3px solid #e0e5ec; padding: 8px 14px; margin-bottom: 20px; background: #fafbfd; border-radius: 0 6px 6px 0; }
+  .quote-text { font-size: 12px; color: #777; line-height: 1.7; font-style: italic; }
+  .quote-attr { font-size: 10.5px; color: #bbb; margin-top: 5px; }
+
+  /* FOOTER */
+  .footer { border-top: 1px solid #eee; padding-top: 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .footer-note { font-size: 11px; color: #999; }
+  .edu-line { font-size: 11px; color: #999; text-align: right; }
+
+  /* RESPONSIVE */
+  @media (max-width: 560px) {
+    .page { padding: 28px 22px; }
+    .header { grid-template-columns: 1fr; }
+    .contact-stack { align-items: flex-start; margin-top: 10px; }
+    .proof-grid, .exp-grid { grid-template-columns: 1fr; }
+    .footer { flex-direction: column; align-items: flex-start; }
+    .edu-line { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-left">
+      <div class="name">André Ramirez</div>
+      <div class="tagline">Operations & AI Implementation · Builder-Operator</div>
+    </div>
+    <div class="contact-stack">
+      <div class="contact-item">Los Angeles, CA</div>
+      <div class="contact-item">818-216-7630</div>
+      <div class="contact-item"><a href="mailto:andreramirez201@gmail.com">andreramirez201@gmail.com</a></div>
+      <div class="contact-item"><a href="https://www.linkedin.com/in/andre33/" target="_blank">linkedin.com/in/andre33</a></div>
+    </div>
+  </div>
+
+  <div class="positioning">
+    25 years in fast-paced, deadline-driven production environments, then carried that discipline into enterprise operations and distribution. Most recently building and deploying AI in a live business context.
+  </div>
+
+  <div class="section">
+    <div class="section-label">Proof points</div>
+    <div class="proof-grid">
+      <div class="proof-card">
+        <div class="proof-stat">46%</div>
+        <div class="proof-title">Gross margin on private-label line</div>
+        <div class="proof-detail">Pricing and sourcing strategy on proprietary brand built from zero customers.</div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-title">Full ERP implementation</div>
+        <div class="proof-detail">Deployed Odoo from scratch — inventory, orders, invoicing, and real-time financial reporting.</div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-title">Operational build out from acquisition</div>
+        <div class="proof-detail">Acquired unstructured wholesale business and built the full operational backbone — SOPs, logistics, KPI tracking, and financial visibility.</div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-title">Published author & app founder</div>
+        <div class="proof-detail">Authored The Wealthy Crew Member (2013). Shipped Track That Cash to Google Play (2015) managing an international dev team.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="section-label">AI projects — built & deployed</div>
+    <div class="ai-card">
+      <div class="ai-header">
+        <div class="ai-title">Autonomous inbound sales agent</div>
+        <div class="ai-date">2026</div>
+      </div>
+      <div class="ai-detail">AI phone system replacing a human operator — answers calls, queries live inventory, calculates markup, quotes delivery. Built solo. Runs 24/7 at zero incremental labor cost.</div>
+      <div class="ai-stack">
+        <span class="ai-pill">Vapi</span>
+        <span class="ai-pill">Twilio</span>
+        <span class="ai-pill">Supabase</span>
+        <span class="ai-pill">Cal.com</span>
+        <span class="ai-pill">VPS / OpenClaw</span>
+      </div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-header">
+        <div class="ai-title">AI outreach & SMS ordering automation</div>
+        <div class="ai-date">2025</div>
+      </div>
+      <div class="ai-detail">AI voice outreach to 2,000+ legacy customers and SMS ordering workflows integrated into ERP.</div>
+      <div class="ai-stack">
+        <span class="ai-pill">Twilio SMS</span>
+        <span class="ai-pill">AI voice</span>
+        <span class="ai-pill">Odoo</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Experience</div>
+    <div class="exp-grid">
+      <div>
+        <div class="exp-item">
+          <div class="exp-role">Owner & Operator</div>
+          <div class="exp-company">Innovative Power Solutions (IPS)</div>
+          <div class="exp-dates">2025 – Present · Los Angeles</div>
+          <div class="exp-detail">Acquired wholesale distribution business. Built full operational infrastructure, AI systems, and private-label brand from zero.</div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-role">Operations Manager</div>
+          <div class="exp-company">Sohonet</div>
+          <div class="exp-dates">2022 – 2024 · Marina del Rey, CA</div>
+          <div class="exp-detail">Enterprise IT ops across North America. Procurement, Salesforce, SOP development, vendor management, and team leadership.</div>
+        </div>
+      </div>
+      <div>
+        <div class="exp-item">
+          <div class="exp-role">Production Operations Lead</div>
+          <div class="exp-company">Major Studios & Commercial Production</div>
+          <div class="exp-dates">1996 – 2022 · Los Angeles</div>
+          <div class="exp-detail">29,000 hours. Crew management, equipment budgets, multi-vendor procurement, and logistics across 25 years of high-budget production.</div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-role">Business Consultant (Pro Bono)</div>
+          <div class="exp-company">Taproot Foundation</div>
+          <div class="exp-dates">2017 – Present</div>
+          <div class="exp-detail">Strategic consulting to nonprofits on operational and marketing challenges.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote-block">
+    <div class="quote-text">"Andre excels at delivering results while making his team feel valued. His ability to balance strategic thinking with day-to-day operations makes him an invaluable asset to any organization."</div>
+    <div class="quote-attr">— Rhodri Evans, VP Global Operations, Sohonet</div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-note">Open to early-stage operating roles — fractional, full-time, or equity-based structures.</div>
+    <div class="edu-line">B.S. International Business · American University of Paris · Provost's List</div>
+  </div>
+
+</div>
+</body>
+</html>
