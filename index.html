@@ -28,7 +28,6 @@
     padding: 44px 48px;
   }
 
-  /* HEADER */
   .header {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -45,7 +44,6 @@
   .contact-item a { color: #4a6fa5; text-decoration: none; }
   .contact-item a:hover { text-decoration: underline; }
 
-  /* POSITIONING */
   .positioning {
     background: #f6f8fd;
     border-left: 3px solid #4a6fa5;
@@ -57,10 +55,8 @@
     color: #2a2a2a;
   }
 
-  /* SECTION LABEL */
   .section-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #bbb; margin-bottom: 10px; }
 
-  /* PROOF GRID */
   .section { margin-bottom: 20px; }
   .proof-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .proof-card { border: 1px solid #eef0f3; border-radius: 9px; padding: 11px 13px; background: #fafafa; }
@@ -68,7 +64,6 @@
   .proof-title { font-size: 11.5px; font-weight: 500; color: #333; margin-bottom: 3px; margin-top: 2px; }
   .proof-detail { font-size: 11px; color: #888; line-height: 1.5; }
 
-  /* AI CARDS */
   .ai-section { margin-bottom: 20px; }
   .ai-card { border: 1px solid #eef0f3; border-radius: 9px; padding: 11px 14px; margin-bottom: 8px; background: #fafafa; border-left: 3px solid #7fa8c9; }
   .ai-card:last-child { margin-bottom: 0; }
@@ -79,7 +74,6 @@
   .ai-stack { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
   .ai-pill { font-size: 10px; padding: 2px 9px; border-radius: 20px; background: #edf2f8; color: #4a6fa5; border: 1px solid #d8e4f0; font-weight: 500; }
 
-  /* EXPERIENCE */
   .exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
   .exp-item { padding-bottom: 11px; margin-bottom: 11px; border-bottom: 1px solid #f3f3f3; }
   .exp-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
@@ -88,17 +82,14 @@
   .exp-dates { font-size: 10.5px; color: #bbb; margin-top: 1px; }
   .exp-detail { font-size: 11px; color: #666; margin-top: 4px; line-height: 1.5; }
 
-  /* QUOTE */
   .quote-block { border-left: 3px solid #e0e5ec; padding: 8px 14px; margin-bottom: 20px; background: #fafbfd; border-radius: 0 6px 6px 0; }
   .quote-text { font-size: 12px; color: #777; line-height: 1.7; font-style: italic; }
   .quote-attr { font-size: 10.5px; color: #bbb; margin-top: 5px; }
 
-  /* FOOTER */
   .footer { border-top: 1px solid #eee; padding-top: 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
   .footer-note { font-size: 11px; color: #999; }
   .edu-line { font-size: 11px; color: #999; text-align: right; }
 
-  /* RESPONSIVE */
   @media (max-width: 560px) {
     .page { padding: 28px 22px; }
     .header { grid-template-columns: 1fr; }
@@ -154,6 +145,7 @@
 
   <div class="ai-section">
     <div class="section-label">AI projects — built & deployed</div>
+
     <div class="ai-card">
       <div class="ai-header">
         <div class="ai-title">Autonomous inbound sales agent</div>
@@ -168,6 +160,35 @@
         <span class="ai-pill">VPS / OpenClaw</span>
       </div>
     </div>
+
+    <div class="ai-card">
+      <div class="ai-header">
+        <div class="ai-title">Billing automation workflow</div>
+        <div class="ai-date">2026</div>
+      </div>
+      <div class="ai-detail">End-to-end billing automation integrating Google Sheets and Gmail APIs. Implemented idempotency to prevent duplicate sends, dry-run mode for safe pre-deployment testing, and cron scheduling for daily execution. Demonstrates API integration, production safety patterns, and operational thinking.</div>
+      <div class="ai-stack">
+        <span class="ai-pill">Python</span>
+        <span class="ai-pill">Google Sheets API</span>
+        <span class="ai-pill">Gmail API</span>
+        <span class="ai-pill">Cron</span>
+      </div>
+    </div>
+
+    <div class="ai-card">
+      <div class="ai-header">
+        <div class="ai-title">AI phone automation for auto body shops — in development</div>
+        <div class="ai-date">2026</div>
+      </div>
+      <div class="ai-detail">Productized voice AI system for independent auto body shops — handles both inbound customer calls and outbound follow-up. Built to replace front-desk phone load: appointment booking, status updates, and lead capture. Designed as a repeatable service offering for the LA market.</div>
+      <div class="ai-stack">
+        <span class="ai-pill">Vapi</span>
+        <span class="ai-pill">Twilio</span>
+        <span class="ai-pill">Supabase</span>
+        <span class="ai-pill">Cal.com</span>
+      </div>
+    </div>
+
     <div class="ai-card">
       <div class="ai-header">
         <div class="ai-title">AI outreach & SMS ordering automation</div>
@@ -180,6 +201,7 @@
         <span class="ai-pill">Odoo</span>
       </div>
     </div>
+
   </div>
 
   <div class="section">
@@ -228,4 +250,4 @@
 
 </div>
 </body>
-</html>
+</htm
