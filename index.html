@@ -390,6 +390,29 @@
 
       <article class="case">
         <div class="case-top">
+          <span class="tag live">Running daily</span>
+          <span class="tag own">Solo build</span>
+          <span class="tag">Agent memory · Private</span>
+        </div>
+        <h3>Second Brain, a persistent memory system for an AI agent</h3>
+        <p>The operating system I run my own work on. Off-the-shelf assistants forget you between
+           sessions, so I built the memory layer myself: <strong>session hooks inject a curated
+           context file at start, every transcript is captured at session end, and a nightly
+           reflection job promotes only the durable signal into long-term memory</strong>. Everything
+           it declines to promote stays retrievable through a full-text index over the logs. Recurring
+           processes get frozen into skills so the same work is never re-improvised twice.</p>
+        <p class="worth"><b>Worth reading for:</b> the security boundary. Any agent with access to
+           your real life trips the lethal trifecta at once, private data plus untrusted incoming
+           content plus a way to send things out. You cannot remove all three and still have it be
+           useful, so each one gets constrained deliberately, and permissions are declared per service
+           in a single file I can read in one sitting. That decision is why it holds finances and
+           private notes and I still sleep fine.</p>
+        <div class="stackline">Claude Code · Claude Agent SDK · Python · SQLite FTS5 · cron · Obsidian
+           · private repo, no link by design</div>
+      </article>
+
+      <article class="case">
+        <div class="case-top">
           <span class="tag live">Live</span>
           <span class="tag own">Solo build</span>
           <span class="tag">Next.js 15 · Claude API · Stripe</span>
