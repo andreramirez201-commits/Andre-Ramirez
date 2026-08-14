@@ -1,253 +1,603 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>André Ramirez — Operations & AI Implementation</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>André Ramirez | Operations &amp; AI Implementation</title>
+<meta name="description" content="André Ramirez, Los Angeles. Operations leader who builds and ships AI and automation systems. 25 years in production operations, enterprise IT ops at Sohonet, owner-operator of a wholesale distribution business, now building LLM-backed products and voice automation." />
+<meta property="og:title" content="André Ramirez | Operations &amp; AI Implementation" />
+<meta property="og:description" content="Operations leader who ships the software. Live voice agents, LLM products, ERP from scratch." />
+<meta property="og:type" content="profile" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
+  :root {
+    --bg: #07090f;
+    --bg-2: #0c1018;
+    --card: #11151f;
+    --card-hover: #151b28;
+    --border: #1e2533;
+    --border-lit: #2a3446;
+    --text: #eef1f7;
+    --muted: #9aa4b8;
+    --dim: #6f7b91;
+    --accent: #3ad1ff;
+    --accent-2: #2f7bff;
+    --ok: #3ddc97;
+    --radius: 16px;
+    --maxw: 1020px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #eef0f3;
-    min-height: 100vh;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 48px 20px;
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
+  h1, h2, h3 { font-family: Sora, Inter, sans-serif; letter-spacing: -0.02em; }
 
-  .page {
-    background: #fff;
-    max-width: 740px;
-    width: 100%;
-    border-radius: 14px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.07), 0 8px 32px rgba(0,0,0,0.06);
-    padding: 44px 48px;
+  /* ---------- Nav ---------- */
+  header {
+    position: sticky; top: 0; z-index: 30;
+    border-bottom: 1px solid var(--border);
+    background: rgba(7, 9, 15, 0.85);
+    backdrop-filter: blur(10px);
   }
+  .hrow { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 13px 0; }
+  .brand { display: flex; align-items: baseline; gap: 10px; color: var(--text); }
+  .brand:hover { text-decoration: none; }
+  .brand b { font-family: Sora, Inter, sans-serif; font-size: 15.5px; }
+  .brand span { font-size: 12px; color: var(--dim); letter-spacing: .04em; }
+  nav ul { display: flex; gap: 24px; list-style: none; margin: 0; padding: 0; }
+  nav a { color: var(--muted); font-size: 14.2px; font-weight: 550; }
+  nav a:hover { color: var(--text); text-decoration: none; }
+  .navtoggle { display: none; background: none; border: 1px solid var(--border); color: var(--text);
+    border-radius: 9px; padding: 7px 11px; font-size: 15px; cursor: pointer; }
 
-  .header {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: start;
-    gap: 12px;
-    padding-bottom: 18px;
-    margin-bottom: 18px;
-    border-bottom: 1px solid #eee;
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-block; padding: 11px 20px; border-radius: 10px;
+    font-weight: 650; font-size: 14px; cursor: pointer;
+    border: 1px solid transparent; transition: transform .12s ease, background .18s ease;
   }
-  .name { font-size: 26px; font-weight: 600; color: #111; letter-spacing: -0.5px; }
-  .tagline { font-size: 10.5px; color: #999; margin-top: 5px; letter-spacing: 1px; text-transform: uppercase; }
-  .contact-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; margin-top: 2px; }
-  .contact-item { font-size: 11.5px; color: #666; }
-  .contact-item a { color: #4a6fa5; text-decoration: none; }
-  .contact-item a:hover { text-decoration: underline; }
+  .btn:hover { text-decoration: none; }
+  .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #04070d; }
+  .btn-primary:hover { transform: translateY(-1px); }
+  .btn-ghost { border-color: var(--border); color: var(--text); background: var(--card); }
+  .btn-ghost:hover { background: var(--card-hover); }
 
-  .positioning {
-    background: #f6f8fd;
-    border-left: 3px solid #4a6fa5;
-    border-radius: 0 8px 8px 0;
-    padding: 13px 16px;
-    margin-bottom: 20px;
-    font-size: 13.5px;
-    line-height: 1.75;
-    color: #2a2a2a;
+  /* ---------- Hero ---------- */
+  .hero { padding: 82px 0 62px;
+    background: radial-gradient(1000px 440px at 50% -10%, rgba(47,123,255,.17), transparent 70%); }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 9px; font-size: 12.5px; font-weight: 650;
+    letter-spacing: .06em; text-transform: uppercase; color: var(--accent);
+    border: 1px solid var(--border); background: var(--card); padding: 6px 14px; border-radius: 999px;
   }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px rgba(61,220,151,.16); }
+  .motto { font-family: Sora, Inter, sans-serif; font-size: clamp(15px, 2.1vw, 19px); font-weight: 600;
+    letter-spacing: -0.01em; color: var(--accent); margin: 0 0 26px; padding-left: 16px;
+    border-left: 2px solid var(--accent); max-width: 42ch; line-height: 1.45; }
+  h1 { font-size: clamp(34px, 6vw, 58px); line-height: 1.04; margin: 0 0 38px; max-width: 18ch; }
+  .hello { font-family: Sora, Inter, sans-serif; font-size: clamp(21px, 3.3vw, 32px); font-weight: 700;
+    letter-spacing: -0.02em; color: var(--text); margin: 0 0 10px; line-height: 1.15; }
+  h1 em, .hello em { font-style: normal; background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .role { font-family: Sora, Inter, sans-serif; font-size: clamp(17px, 2.5vw, 23px); font-weight: 600;
+    color: var(--text); margin: 0 0 22px; letter-spacing: -0.015em; }
+  .role .sep { color: var(--dim); margin: 0 10px; font-weight: 400; }
+  .bio { max-width: 62ch; margin: 0 0 30px; }
+  .bio p { color: var(--muted); font-size: 15.8px; margin: 0 0 15px; }
+  .bio p:last-child { margin-bottom: 0; }
+  .bio strong { color: var(--text); font-weight: 600; }
+  .bio p.lede { font-size: clamp(16.5px, 2vw, 19px); color: var(--text); margin-bottom: 18px; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 30px; }
+  .sociallinks { display: flex; gap: 18px; font-size: 14px; }
+  .sociallinks a { color: var(--muted); }
+  .sociallinks a:hover { color: var(--accent); }
+  .creds { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 34px; }
+  .cred { border: 1px solid var(--border); background: var(--card); color: var(--muted);
+    padding: 7px 14px; border-radius: 999px; font-size: 13.2px; font-weight: 550; }
 
-  .section-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #bbb; margin-bottom: 10px; }
+  /* ---------- Try-it strip ---------- */
+  .tryit { margin-top: 38px; border: 1px solid var(--border); border-radius: var(--radius);
+    background: linear-gradient(180deg, var(--card), var(--bg-2)); padding: 22px 24px;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 18px; justify-content: space-between;
+    box-shadow: 0 0 0 1px rgba(58,209,255,.05), 0 18px 50px -30px rgba(58,209,255,.35); }
+  .tryit h3 { margin: 0 0 5px; font-size: 17px; }
+  .tryit p { margin: 0; color: var(--muted); font-size: 14.5px; max-width: 54ch; }
+  .num { font-family: Sora, Inter, sans-serif; font-size: 22px; font-weight: 700; color: var(--accent); white-space: nowrap; }
 
-  .section { margin-bottom: 20px; }
-  .proof-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .proof-card { border: 1px solid #eef0f3; border-radius: 9px; padding: 11px 13px; background: #fafafa; }
-  .proof-stat { font-size: 15px; font-weight: 600; color: #4a6fa5; margin-bottom: 1px; line-height: 1; }
-  .proof-title { font-size: 11.5px; font-weight: 500; color: #333; margin-bottom: 3px; margin-top: 2px; }
-  .proof-detail { font-size: 11px; color: #888; line-height: 1.5; }
+  /* ---------- Sections ---------- */
+  section { padding: 66px 0; border-top: 1px solid var(--border); }
+  .sec-head { margin-bottom: 32px; }
+  .sec-head h2 { font-size: clamp(23px, 3.4vw, 31px); margin: 0 0 8px; }
+  .sec-head p { color: var(--muted); margin: 0; max-width: 66ch; font-size: 15.5px; }
 
-  .ai-section { margin-bottom: 20px; }
-  .ai-card { border: 1px solid #eef0f3; border-radius: 9px; padding: 11px 14px; margin-bottom: 8px; background: #fafafa; border-left: 3px solid #7fa8c9; }
-  .ai-card:last-child { margin-bottom: 0; }
-  .ai-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
-  .ai-title { font-size: 12px; font-weight: 500; color: #222; }
-  .ai-date { font-size: 11px; color: #bbb; }
-  .ai-detail { font-size: 11px; color: #666; line-height: 1.55; }
-  .ai-stack { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
-  .ai-pill { font-size: 10px; padding: 2px 9px; border-radius: 20px; background: #edf2f8; color: #4a6fa5; border: 1px solid #d8e4f0; font-weight: 500; }
+  /* ---------- Stack ---------- */
+  .chips { display: flex; flex-wrap: wrap; gap: 9px; }
+  .chip { border: 1px solid var(--border); background: var(--card); color: var(--muted);
+    padding: 8px 15px; border-radius: 999px; font-size: 14px; font-weight: 550; }
+  .stackgroup { margin-bottom: 22px; }
+  .stackgroup h4 { font-family: Inter, sans-serif; font-size: 12px; text-transform: uppercase;
+    letter-spacing: .09em; color: var(--dim); margin: 0 0 11px; font-weight: 700; }
 
-  .exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
-  .exp-item { padding-bottom: 11px; margin-bottom: 11px; border-bottom: 1px solid #f3f3f3; }
-  .exp-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
-  .exp-role { font-size: 12px; font-weight: 500; color: #222; }
-  .exp-company { font-size: 11px; color: #888; margin-top: 1px; }
-  .exp-dates { font-size: 10.5px; color: #bbb; margin-top: 1px; }
-  .exp-detail { font-size: 11px; color: #666; margin-top: 4px; line-height: 1.5; }
+  /* ---------- Projects ---------- */
+  .work { display: grid; gap: 18px; }
+  .case { border: 1px solid var(--border); border-radius: var(--radius); background: var(--card);
+    padding: 26px; transition: border-color .18s ease, background .18s ease; }
+  .case:hover { border-color: var(--border-lit); background: var(--card-hover); }
+  .case-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .tag { font-size: 11.5px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); background: var(--bg-2); }
+  .tag.live { color: var(--ok); border-color: rgba(61,220,151,.32); }
+  .tag.own { color: var(--accent); border-color: rgba(58,209,255,.32); }
+  .case h3 { font-size: 20px; margin: 0 0 10px; }
+  .case p { color: var(--muted); margin: 0 0 14px; font-size: 15.2px; }
+  .case p strong { color: var(--text); font-weight: 600; }
+  .worth { font-size: 14.6px; color: var(--muted); border-left: 2px solid var(--border-lit);
+    padding-left: 14px; margin: 0 0 16px; }
+  .worth b { color: var(--text); font-weight: 600; }
+  .case-links { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; font-size: 14px; font-weight: 600; }
+  .stackline { font-size: 13.2px; color: var(--dim); margin-top: 15px; padding-top: 14px; border-top: 1px solid var(--border); }
 
-  .quote-block { border-left: 3px solid #e0e5ec; padding: 8px 14px; margin-bottom: 20px; background: #fafbfd; border-radius: 0 6px 6px 0; }
-  .quote-text { font-size: 12px; color: #777; line-height: 1.7; font-style: italic; }
-  .quote-attr { font-size: 10.5px; color: #bbb; margin-top: 5px; }
+  /* ---------- Timeline (alternating left/right) ---------- */
+  .timeline { position: relative; padding: 4px 0; }
+  .timeline::before { content: ""; position: absolute; left: 50%; transform: translateX(-50%);
+    top: 6px; bottom: 6px; width: 2px;
+    background: linear-gradient(180deg, var(--accent-2), var(--border) 80%, transparent); opacity: .6; }
+  .tl-item { position: relative; width: 50%; padding: 0 48px 40px 0; }
+  .tl-item:nth-child(even) { margin-left: 50%; padding: 0 0 40px 48px; }
+  .tl-item:last-child { padding-bottom: 0; }
+  /* node */
+  .tl-item::before { content: ""; position: absolute; top: 3px; width: 15px; height: 15px; z-index: 2;
+    border-radius: 50%; background: var(--bg); border: 2px solid var(--border-lit); }
+  .tl-item:nth-child(odd)::before  { right: -8.5px; }
+  .tl-item:nth-child(even)::before { left: -8.5px; }
+  /* connector to the spine */
+  .tl-item::after { content: ""; position: absolute; top: 10px; width: 34px; height: 2px;
+    background: var(--border); z-index: 1; }
+  .tl-item:nth-child(odd)::after  { right: 8px; }
+  .tl-item:nth-child(even)::after { left: 8px; }
+  .tl-item.now::before { border-color: var(--ok); background: var(--ok); box-shadow: 0 0 0 4px rgba(61,220,151,.15); }
+  .tl-date { font-size: 12.6px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 9px; }
+  .tl-item:nth-child(odd) .tl-date { text-align: right; }
+  .tl-card { border: 1px solid var(--border); border-radius: var(--radius); background: var(--card);
+    padding: 22px 24px; transition: border-color .18s ease, background .18s ease; }
+  .tl-card:hover { border-color: var(--border-lit); background: var(--card-hover); }
+  .tl-card h3 { font-size: 18.5px; margin: 0 0 3px; }
+  .tl-org { color: var(--muted); font-size: 14.6px; margin: 0 0 4px; font-weight: 600; }
+  .tl-note { color: var(--dim); font-size: 13.6px; font-style: italic; margin: 0 0 14px; }
+  .tl-card ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .tl-card li { position: relative; padding-left: 20px; color: var(--muted); font-size: 14.8px; }
+  .tl-card li::before { content: ""; position: absolute; left: 4px; top: 9px; width: 6px; height: 6px;
+    border-radius: 50%; background: var(--accent); opacity: .7; }
+  .tl-card li strong { color: var(--text); font-weight: 600; }
 
-  .footer { border-top: 1px solid #eee; padding-top: 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
-  .footer-note { font-size: 11px; color: #999; }
-  .edu-line { font-size: 11px; color: #999; text-align: right; }
+  /* ---------- Also / education ---------- */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .panel { border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 24px; }
+  .panel h3 { font-size: 17px; margin: 0 0 12px; }
+  .panel ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 9px; }
+  .panel li { color: var(--muted); font-size: 14.8px; }
+  .panel li strong { color: var(--text); font-weight: 600; }
 
-  @media (max-width: 560px) {
-    .page { padding: 28px 22px; }
-    .header { grid-template-columns: 1fr; }
-    .contact-stack { align-items: flex-start; margin-top: 10px; }
-    .proof-grid, .exp-grid { grid-template-columns: 1fr; }
-    .footer { flex-direction: column; align-items: flex-start; }
-    .edu-line { text-align: left; }
+  /* ---------- Contact ---------- */
+  .contact { text-align: center; padding: 78px 0 66px; }
+  .contact h2 { font-size: clamp(25px, 3.6vw, 34px); margin: 0 0 12px; }
+  .contact p { color: var(--muted); max-width: 54ch; margin: 0 auto 28px; font-size: 16px; }
+  .contactgrid { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+
+  footer { border-top: 1px solid var(--border); padding: 26px 0 34px; color: var(--dim); font-size: 13.4px;
+    display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 780px) {
+    .navtoggle { display: block; }
+    nav { display: none; position: absolute; left: 0; right: 0; top: 100%;
+      background: var(--bg-2); border-bottom: 1px solid var(--border); padding: 14px 22px 20px; }
+    nav.open { display: block; }
+    nav ul { flex-direction: column; gap: 15px; }
+    .grid2 { grid-template-columns: 1fr; }
+    .hero { padding: 58px 0 48px; }
+    section { padding: 52px 0; }
+    .tryit { flex-direction: column; align-items: flex-start; }
+
+    /* timeline collapses to a single left spine */
+    .timeline::before { left: 7px; transform: none; }
+    .tl-item,
+    .tl-item:nth-child(even) { width: 100%; margin-left: 0; padding: 0 0 30px 34px; }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-item:nth-child(odd)::before,
+    .tl-item:nth-child(even)::before { left: 0; right: auto; }
+    .tl-item::after { display: none; }
+    .tl-item:nth-child(odd) .tl-date { text-align: left; }
   }
 </style>
 </head>
 <body>
-<div class="page">
 
-  <div class="header">
-    <div class="header-left">
-      <div class="name">André Ramirez</div>
-      <div class="tagline">Operations & AI Implementation · Builder-Operator</div>
-    </div>
-    <div class="contact-stack">
-      <div class="contact-item">Los Angeles, CA</div>
-      <div class="contact-item">818-216-7630</div>
-      <div class="contact-item"><a href="mailto:andreramirez201@gmail.com">andreramirez201@gmail.com</a></div>
-      <div class="contact-item"><a href="https://www.linkedin.com/in/andre33/" target="_blank">linkedin.com/in/andre33</a></div>
-    </div>
+<header>
+  <div class="wrap hrow">
+    <a class="brand" href="#top"><b>André Ramirez</b><span>Operations · AI · Automation</span></a>
+    <button class="navtoggle" id="navtoggle" aria-label="Menu" aria-expanded="false">Menu</button>
+    <nav id="nav">
+      <ul>
+        <li><a href="#timeline">Experience</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#stack">Stack</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
   </div>
+</header>
 
-  <div class="positioning">
-    25 years in fast-paced, deadline-driven production environments, then carried that discipline into enterprise operations and distribution. Most recently building and deploying AI in a live business context.
-  </div>
-
-  <div class="section">
-    <div class="section-label">Proof points</div>
-    <div class="proof-grid">
-      <div class="proof-card">
-        <div class="proof-stat">46%</div>
-        <div class="proof-title">Gross margin on private-label line</div>
-        <div class="proof-detail">Pricing and sourcing strategy on proprietary brand built from zero customers.</div>
-      </div>
-      <div class="proof-card">
-        <div class="proof-title">Full ERP implementation</div>
-        <div class="proof-detail">Deployed Odoo from scratch — inventory, orders, invoicing, and real-time financial reporting.</div>
-      </div>
-      <div class="proof-card">
-        <div class="proof-title">Operational build out from acquisition</div>
-        <div class="proof-detail">Acquired unstructured wholesale business and built the full operational backbone — SOPs, logistics, KPI tracking, and financial visibility.</div>
-      </div>
-      <div class="proof-card">
-        <div class="proof-title">Published author & app founder</div>
-        <div class="proof-detail">Authored The Wealthy Crew Member (2013). Shipped Track That Cash to Google Play (2015) managing an international dev team.</div>
-      </div>
+<!-- ===================== HERO ===================== -->
+<div class="hero" id="top">
+  <div class="wrap">
+    <p class="motto">Complexity kills more businesses than competition.</p>
+    <h1>Allow me to reintroduce myself...</h1>
+    <p class="hello">Hi, my name is <em>André Ramirez</em></p>
+    <p class="role">Operations Development <span class="sep">|</span> AI Workflow Architect</p>
+    <div style="margin-bottom:24px;"><span class="eyebrow"><span class="dot"></span> Open to contract, fractional, and full-time</span></div>
+    <div class="bio">
+      <p class="lede">
+        I'm drawn to the systems behind how businesses operate, how workflows connect, how teams
+        coordinate, and how organizations turn strategy into consistent execution.
+      </p>
+      <p>
+        Across technology, enterprise services, and distribution, I've led cross-functional teams,
+        governed service contracts, optimized vendor relationships, and built operating models that
+        align people, processes, and resources with demand.
+      </p>
+      <p>
+        As AI has become part of modern operations, I've incorporated it into my approach by
+        implementing workflow automation, voice agents, automated outreach, and intelligent intake
+        systems that reduce manual work and improve execution.
+      </p>
+      <p>
+        I'm at my best in organizations experiencing growth or operational complexity, where strong
+        systems, disciplined execution, and thoughtful use of AI can improve performance and help
+        teams scale.
+      </p>
     </div>
-  </div>
-
-  <div class="ai-section">
-    <div class="section-label">AI projects — built & deployed</div>
-
-    <div class="ai-card">
-      <div class="ai-header">
-        <div class="ai-title">Autonomous inbound sales agent</div>
-        <div class="ai-date">2026</div>
-      </div>
-      <div class="ai-detail">AI phone system replacing a human operator — answers calls, queries live inventory, calculates markup, quotes delivery. Built solo. Runs 24/7 at zero incremental labor cost.</div>
-      <div class="ai-stack">
-        <span class="ai-pill">Vapi</span>
-        <span class="ai-pill">Twilio</span>
-        <span class="ai-pill">Supabase</span>
-        <span class="ai-pill">Calendly</span>
-        <span class="ai-pill">VPS / OpenClaw</span>
-      </div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#contact">Get in touch</a>
+      <a class="btn btn-ghost" href="#timeline">See my experience</a>
     </div>
-
-    <div class="ai-card">
-      <div class="ai-header">
-        <div class="ai-title">Billing automation workflow</div>
-        <div class="ai-date">2026</div>
-      </div>
-      <div class="ai-detail">End-to-end billing automation integrating Google Sheets and Gmail APIs. Implemented idempotency to prevent duplicate sends, dry-run mode for safe pre-deployment testing, and cron scheduling for daily execution. Demonstrates API integration, production safety patterns, and operational thinking.</div>
-      <div class="ai-stack">
-        <span class="ai-pill">Python</span>
-        <span class="ai-pill">Google Sheets API</span>
-        <span class="ai-pill">Gmail API</span>
-        <span class="ai-pill">Cron</span>
-      </div>
+    <div class="sociallinks">
+      <a href="https://linkedin.com/in/andre33" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/andreramirez201-commits" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:andreramirez201@gmail.com">Email</a>
+    </div>
+    <div class="creds">
+      <span class="cred">Operations management</span>
+      <span class="cred">AI implementation</span>
+      <span class="cred">Process design and SOPs</span>
+      <span class="cred">Odoo ERP</span>
+      <span class="cred">Procurement and vendor negotiation</span>
+      <span class="cred">B.S. International Business, American University of Paris</span>
     </div>
 
-    <div class="ai-card">
-      <div class="ai-header">
-        <div class="ai-title">AI phone automation for auto body shops — in development</div>
-        <div class="ai-date">2026</div>
-      </div>
-      <div class="ai-detail">Productized voice AI system for independent auto body shops — handles both inbound customer calls and outbound follow-up. Built to replace front-desk phone load: appointment booking, status updates, and lead capture. Designed as a repeatable service offering for the LA market.</div>
-      <div class="ai-stack">
-        <span class="ai-pill">Vapi</span>
-        <span class="ai-pill">Twilio</span>
-        <span class="ai-pill">Supabase</span>
-        <span class="ai-pill">Calendly</span>
-      </div>
-    </div>
-
-    <div class="ai-card">
-      <div class="ai-header">
-        <div class="ai-title">AI outreach & SMS ordering automation</div>
-        <div class="ai-date">2025</div>
-      </div>
-      <div class="ai-detail">AI voice outreach to 2,000+ legacy customers and SMS ordering workflows integrated into ERP.</div>
-      <div class="ai-stack">
-        <span class="ai-pill">Twilio SMS</span>
-        <span class="ai-pill">AI voice</span>
-        <span class="ai-pill">Odoo</span>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="section">
-    <div class="section-label">Experience</div>
-    <div class="exp-grid">
+    <div class="tryit">
       <div>
-        <div class="exp-item">
-          <div class="exp-role">Owner &amp; Operator</div>
-          <div class="exp-company">Innovative Power Solutions (IPS)</div>
-          <div class="exp-dates">2025 – Present · Los Angeles</div>
-          <div class="exp-detail">Acquired wholesale distribution business. Built full operational infrastructure, AI systems, and private-label brand from zero.</div>
-        </div>
-        <div class="exp-item">
-          <div class="exp-role">Operations Manager</div>
-          <div class="exp-company">Sohonet</div>
-          <div class="exp-dates">2022 – 2024 · Marina del Rey, CA</div>
-          <div class="exp-detail">Enterprise IT ops across North America. Procurement, Salesforce, SOP development, vendor management, and team leadership.</div>
-        </div>
+        <h3>Call the voice agent I built</h3>
+        <p>It answers, runs a real intake conversation, and emails a structured summary of the call.
+           Nobody is on the other end. Try to break it. Or
+           <a href="https://innovativepowersolutions.ai/legal/demo.html" target="_blank" rel="noopener">hear the legal intake version in your browser</a>.</p>
       </div>
-      <div>
-        <div class="exp-item">
-          <div class="exp-role">Production Operations Lead</div>
-          <div class="exp-company">Major Studios & Commercial Production</div>
-          <div class="exp-dates">1996 – 2022 · Los Angeles</div>
-          <div class="exp-detail">29,000 hours. Crew management, equipment budgets, multi-vendor procurement, and logistics across 25 years of high-budget production.</div>
-        </div>
-        <div class="exp-item">
-          <div class="exp-role">Business Consultant (Pro Bono)</div>
-          <div class="exp-company">Taproot Foundation</div>
-          <div class="exp-dates">2017 – Present</div>
-          <div class="exp-detail">Strategic consulting to nonprofits on operational and marketing challenges.</div>
-        </div>
-      </div>
+      <a class="num" href="tel:+16268227802">+1 (626) 822-7802</a>
     </div>
   </div>
-
-  <div class="quote-block">
-    <div class="quote-text">"Andre excels at delivering results while making his team feel valued. His ability to balance strategic thinking with day-to-day operations makes him an invaluable asset to any organization."</div>
-    <div class="quote-attr">— Rhodri Evans, VP Global Operations, Sohonet</div>
-  </div>
-
-  <div class="footer">
-    <div class="footer-note">Open to early-stage operating roles — fractional, full-time, or equity-based structures.</div>
-    <div class="edu-line">B.S. International Business · American University of Paris · Provost's List</div>
-  </div>
-
 </div>
+
+<!-- ===================== TIMELINE ===================== -->
+<section id="timeline">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Experience</h2>
+      <p>Twenty five years of running operations where a mistake costs money the same day, followed by
+         five years turning that judgment into software.</p>
+    </div>
+
+    <div class="timeline">
+
+      <div class="tl-item now">
+        <div class="tl-date">2026 — Present</div>
+        <div class="tl-card">
+          <h3>AI Implementation</h3>
+          <p class="tl-note">Building and deploying AI systems for small and mid-sized operating businesses.</p>
+          <ul>
+            <li>Design and ship <strong>voice and intake agents</strong> that answer calls, qualify, book, and route, on Vapi, Twilio, and n8n.</li>
+            <li>Build the integration layer that connects those agents to the systems a business already runs, rather than asking it to adopt a new one.</li>
+            <li>Scope every engagement to a measurable operational result, and label prototypes as prototypes.</li>
+            <li>Enforce hard spend caps and rate limits on every public endpoint that calls a paid API, before launch, without exception.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item now">
+        <div class="tl-date">2025 — Present</div>
+        <div class="tl-card">
+          <h3>Operations Development / AI Implementation</h3>
+          <p class="tl-org">Innovative Power Solutions · Wholesale distribution, Los Angeles</p>
+          <p class="tl-note">Built the operating backbone of an unstructured wholesale business, then automated it.</p>
+          <ul>
+            <li>Built the full operational backbone from nothing: <strong>SOPs, logistics, KPI tracking, and financial visibility</strong>.</li>
+            <li>Deployed <strong>Odoo ERP from scratch</strong>, covering inventory, orders, invoicing, and reporting.</li>
+            <li>Ran procurement and pricing across <strong>2,000+ product lines</strong>, managing vendor terms and margin against limited working capital.</li>
+            <li>Launched the KATO private-label line at approximately <strong>46% gross margin</strong>.</li>
+            <li>Automated the parts catalog, order intake, and customer outreach so a one-person operation could run a multi-thousand-unit inventory.</li>
+            <li>Wound the operation down on the evidence rather than the hope, and ran an orderly disposition of remaining inventory. Knowing when to stop is an operating skill.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2022 — 2024</div>
+        <div class="tl-card">
+          <h3>Operations Manager</h3>
+          <p class="tl-org">Sohonet · Enterprise media technology services</p>
+          <p class="tl-note">Enterprise IT operations across North America and APAC. Role eliminated in a phased, industry-wide workforce reduction.</p>
+          <ul>
+            <li>Improved operational procedures, systems, and policies, strengthening <strong>management reporting and information flow</strong> across the business.</li>
+            <li>Developed and maintained the <strong>SOP library</strong> that drove consistent service quality end to end.</li>
+            <li>Led platform and procurement: managed spend, supplier relationships, price negotiations, and inventory health, including bulk-order pricing against vendor volume thresholds.</li>
+            <li>Optimized operational workflows and <strong>managed customer accounts across North America and APAC</strong>.</li>
+            <li>Ran continuous process improvement, prioritizing the revisions that resolved real customer issues.</li>
+            <li>Led the Los Angeles office relocation and infrastructure setup.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">1996 — 2022</div>
+        <div class="tl-card">
+          <h3>Production Operations and Logistics</h3>
+          <p class="tl-org">Warner Bros · Paramount · Sony · Disney · commercial production</p>
+          <p class="tl-note">A long career in large-scale production operations, progressing into senior crew leadership.</p>
+          <ul>
+            <li>Coordinated <strong>equipment, crews, and logistics</strong> for large-budget productions under fixed daily schedules with high cost-per-hour exposure.</li>
+            <li>Planned complex technical setups, sequencing labor, equipment, and timing to hold schedule across changing locations.</li>
+            <li>Enforced safety and compliance on high-risk sets with zero tolerance for delay or incident.</li>
+            <li>Advanced to senior crew leadership, directing a department and bridging leadership and the working crew.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WORK ===================== -->
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Selected work</h2>
+      <p>Systems I designed, built, and put in front of real users. Each one is labeled honestly:
+         live means it is running in production, prototype means it works and has not been handed to customers.</p>
+    </div>
+
+    <div class="work">
+
+      <article class="case">
+        <div class="case-top">
+          <span class="tag live">Live</span>
+          <span class="tag own">Solo build</span>
+          <span class="tag">Next.js 15 · Claude API · Stripe</span>
+        </div>
+        <h3>Job Search Wizard</h3>
+        <p>An <strong>LLM resume rewriter</strong> with a free ATS-scoring funnel and a $9 Stripe checkout.
+           Next.js 15, React 19, TypeScript, Claude streamed server side. No auth and no database by
+           design, so there is no user data to leak. Built, shipped, and deployed solo.</p>
+        <p class="worth"><b>Worth reading for:</b> the three-layer spend guardrail on a public,
+           unauthenticated endpoint that calls a paid API, and the honest note in the README about why
+           the in-app rate limiter is not the thing that actually bounds the bill.</p>
+        <div class="case-links">
+          <a href="https://job-search-wizard-andre-deploys-ai.vercel.app" target="_blank" rel="noopener">Live site</a>
+          <a href="https://github.com/andreramirez201-commits/job-search-wizard" target="_blank" rel="noopener">Source</a>
+        </div>
+        <div class="stackline">Next.js 15 · React 19 · TypeScript · Claude API · Stripe · Vercel</div>
+      </article>
+
+      <article class="case">
+        <div class="case-top">
+          <span class="tag live">Live</span>
+          <span class="tag own">Solo build</span>
+          <span class="tag">Voice AI</span>
+        </div>
+        <h3>Inbound voice agent, wholesale parts</h3>
+        <p>An <strong>AI phone agent that answers inbound calls</strong>, queries live inventory, quotes
+           delivery, and hands off a structured summary by email. Built on Vapi and Twilio with a
+           Supabase backing store and n8n workflows connecting it to the order pipeline. Deployed
+           against a real customer base, not a sandbox.</p>
+        <p class="worth"><b>Worth reading for:</b> the adoption lesson. The model was never the
+           constraint. One customer segment simply refused to talk to a machine, and that is where most
+           AI pilots actually die. Designing the human fallback was more valuable than tuning the agent.</p>
+        <div class="case-links">
+          <a href="tel:+16268227802">Call the demo line</a>
+        </div>
+        <div class="stackline">Vapi · Twilio · Supabase · n8n · Calendly</div>
+      </article>
+
+      <article class="case">
+        <div class="case-top">
+          <span class="tag live">Live</span>
+          <span class="tag own">Solo build</span>
+          <span class="tag">Voice AI · Legal intake</span>
+        </div>
+        <h3>Legal intake voice agent</h3>
+        <p>A <strong>24/7 intake agent for law firms</strong>. It answers, runs the qualifying
+           conversation a paralegal would run, captures the matter details against a structured intake
+           schema, and delivers a written summary to the firm before the caller has hung up. It runs in
+           the browser, so you can hear it without picking up a phone.</p>
+        <p class="worth"><b>Worth reading for:</b> the intake schema. The hard part is not getting an
+           agent to talk. It is getting a consistent, complete, structured record out of an unstructured
+           and often emotional phone call, every time, including the calls that go sideways.</p>
+        <div class="case-links">
+          <a href="https://innovativepowersolutions.ai/legal/demo.html" target="_blank" rel="noopener">Hear it now</a>
+        </div>
+        <div class="stackline">Vapi · n8n · structured intake schema · webhook to email</div>
+      </article>
+
+      <article class="case">
+        <div class="case-top">
+          <span class="tag own">Solo build</span>
+          <span class="tag">TypeScript monorepo · Postgres</span>
+        </div>
+        <h3>Ticket Alert</h3>
+        <p>Polls Ticketmaster and <strong>texts a subscriber list the moment a show goes on sale</strong>.
+           TypeScript pnpm monorepo, Express 5, Postgres with Drizzle, Zod validation, Orval codegen
+           from an OpenAPI spec.</p>
+        <p class="worth"><b>Worth reading for:</b> the deduplication design. Sending one SMS is trivial.
+           Not sending the same one four hundred times across restarts and redeploys is the actual
+           problem, solved with a durable seen-set, silent seeding on first boot, and alerting on
+           status transitions rather than status.</p>
+        <div class="case-links">
+          <a href="https://github.com/andreramirez201-commits/Ticket-Notify-Bot" target="_blank" rel="noopener">Source</a>
+        </div>
+        <div class="stackline">TypeScript · Express 5 · PostgreSQL · Drizzle · Zod · Orval · Twilio</div>
+      </article>
+
+      <article class="case">
+        <div class="case-top">
+          <span class="tag live">Live</span>
+          <span class="tag">Inventory · Web</span>
+        </div>
+        <h3>Inventory and liquidation system</h3>
+        <p>The operating system for a 2,000-line parts catalog: a <strong>public lookup and offer
+           page backed by a single source of truth</strong>, with a one-command path from "this unit
+           sold" to the live site reflecting it. Removed the spreadsheet reconciliation step entirely.</p>
+        <p class="worth"><b>Worth reading for:</b> the boring part that mattered. The value was not the
+           web page. It was that the stock number a customer sees and the stock number in the ledger
+           can no longer disagree.</p>
+        <div class="stackline">Python · PHP · JSON catalog · Docker on VPS · nginx · Cloudflare</div>
+      </article>
+
+      <article class="case">
+        <div class="case-top">
+          <span class="tag">Not code</span>
+        </div>
+        <h3>Sale-to-Cash Editor</h3>
+        <p>A structured diagnostic that traces <strong>how a business converts a sale into collected
+           cash</strong> and names exactly where the process breaks. It critiques and refuses to
+           rewrite, which is the whole design constraint. This is operating judgment written down.</p>
+        <div class="case-links">
+          <a href="https://github.com/andreramirez201-commits/sale-to-cash-editor" target="_blank" rel="noopener">Source</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== STACK ===================== -->
+<section id="stack">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Stack</h2>
+      <p>What I actually reach for. Listed because I have shipped something with it, not because I have read about it.</p>
+    </div>
+
+    <div class="stackgroup">
+      <h4>Build</h4>
+      <div class="chips">
+        <span class="chip">TypeScript</span><span class="chip">Next.js</span><span class="chip">React</span>
+        <span class="chip">Node</span><span class="chip">Express</span><span class="chip">Python</span>
+        <span class="chip">PostgreSQL</span><span class="chip">Drizzle</span><span class="chip">Zod</span>
+      </div>
+    </div>
+
+    <div class="stackgroup">
+      <h4>AI and automation</h4>
+      <div class="chips">
+        <span class="chip">Claude API</span><span class="chip">Claude Code</span><span class="chip">n8n</span>
+        <span class="chip">Vapi</span><span class="chip">Twilio</span><span class="chip">Supabase</span>
+      </div>
+    </div>
+
+    <div class="stackgroup">
+      <h4>Ship and operate</h4>
+      <div class="chips">
+        <span class="chip">Vercel</span><span class="chip">Docker on VPS</span><span class="chip">nginx</span>
+        <span class="chip">Cloudflare</span><span class="chip">Stripe</span><span class="chip">Git</span>
+      </div>
+    </div>
+
+    <div class="stackgroup">
+      <h4>Business systems</h4>
+      <div class="chips">
+        <span class="chip">Odoo ERP</span><span class="chip">Calendly</span>
+        <span class="chip">Google Workspace APIs</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ALSO ===================== -->
+<section id="also">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Also worth knowing</h2>
+    </div>
+    <div class="grid2">
+      <div class="panel">
+        <h3>Education</h3>
+        <ul>
+          <li><strong>B.S., International Business</strong><br />American University of Paris · Provost's List</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Before software</h3>
+        <ul>
+          <li><strong>Published author</strong>, <em>The Wealthy Crew Member</em> (2013)</li>
+          <li><strong>Shipped Track That Cash</strong> to Google Play (2015), managing an international development team</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2>Let's talk</h2>
+    <p>Open to contract, fractional, and full-time roles in operations, AI implementation, and
+       automation. Los Angeles based, comfortable remote.</p>
+    <div class="contactgrid">
+      <a class="btn btn-primary" href="mailto:andreramirez201@gmail.com">andreramirez201@gmail.com</a>
+      <a class="btn btn-ghost" href="tel:+18182167630">818.216.7630</a>
+      <a class="btn btn-ghost" href="https://linkedin.com/in/andre33" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn btn-ghost" href="https://github.com/andreramirez201-commits" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;width:100%;">
+    <span>André Ramirez · Los Angeles, CA</span>
+    <span>Built and deployed by hand.</span>
+  </div>
+</footer>
+
+<script>
+  var t = document.getElementById('navtoggle'), n = document.getElementById('nav');
+  t.addEventListener('click', function () {
+    var open = n.classList.toggle('open');
+    t.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  n.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A') { n.classList.remove('open'); t.setAttribute('aria-expanded', 'false'); }
+  });
+</script>
+
 </body>
-</htm
+</html>
