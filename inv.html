@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>André Ramirez | Operator. Systems Thinker. Builder.</title>
+<meta name="description" content="André Ramirez. Operator and builder. Decades running complicated real-world operations, and the systems, software, and AI to run them better." />
+<meta property="og:title" content="André Ramirez | Operator. Systems Thinker. Builder." />
+<meta property="og:description" content="I've operated businesses and technical environments, and I build things." />
+<meta property="og:type" content="profile" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #07090f;
+    --bg-2: #0c1018;
+    --card: #11151f;
+    --card-hover: #151b28;
+    --border: #1e2533;
+    --border-lit: #2a3446;
+    --text: #eef1f7;
+    --muted: #9aa4b8;
+    --dim: #6f7b91;
+    --accent: #3ad1ff;
+    --accent-2: #2f7bff;
+    --ok: #3ddc97;
+    --radius: 16px;
+    --maxw: 1020px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
+  h1, h2, h3 { font-family: Sora, Inter, sans-serif; letter-spacing: -0.02em; }
+
+  /* ---------- Nav ---------- */
+  header {
+    position: sticky; top: 0; z-index: 30;
+    border-bottom: 1px solid var(--border);
+    background: rgba(7, 9, 15, 0.85);
+    backdrop-filter: blur(10px);
+  }
+  .hrow { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 13px 0; }
+  .brand { display: flex; align-items: baseline; gap: 10px; color: var(--text); }
+  .brand:hover { text-decoration: none; }
+  .brand b { font-family: Sora, Inter, sans-serif; font-size: 15.5px; }
+  .brand span { font-size: 12px; color: var(--dim); letter-spacing: .04em; }
+  nav ul { display: flex; gap: 24px; list-style: none; margin: 0; padding: 0; }
+  nav a { color: var(--muted); font-size: 14.2px; font-weight: 550; }
+  nav a:hover { color: var(--text); text-decoration: none; }
+  .navtoggle { display: none; background: none; border: 1px solid var(--border); color: var(--text);
+    border-radius: 9px; padding: 7px 11px; font-size: 15px; cursor: pointer; }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-block; padding: 11px 20px; border-radius: 10px;
+    font-weight: 650; font-size: 14px; cursor: pointer;
+    border: 1px solid transparent; transition: transform .12s ease, background .18s ease;
+  }
+  .btn:hover { text-decoration: none; }
+  .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #04070d; }
+  .btn-primary:hover { transform: translateY(-1px); }
+  .btn-ghost { border-color: var(--border); color: var(--text); background: var(--card); }
+  .btn-ghost:hover { background: var(--card-hover); }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 76px 0 54px;
+    background: radial-gradient(1000px 440px at 50% -10%, rgba(47,123,255,.17), transparent 70%); }
+  h1 { font-size: clamp(36px, 6.5vw, 60px); line-height: 1.02; margin: 0 0 14px; }
+  .title-line { font-family: Sora, Inter, sans-serif; font-size: clamp(17px, 2.3vw, 22px); font-weight: 650;
+    color: var(--text); margin: 0 0 8px; letter-spacing: -0.01em; }
+  .role-line { font-family: Sora, Inter, sans-serif; font-size: clamp(15px, 2vw, 18px); font-weight: 600;
+    color: var(--accent); margin: 0 0 20px; letter-spacing: -0.005em; }
+  .lede-single { color: var(--muted); font-size: clamp(15.5px, 1.9vw, 17.5px); max-width: 58ch; margin: 0 0 30px; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 26px; }
+  .sociallinks { display: flex; gap: 18px; font-size: 14px; }
+  .sociallinks a { color: var(--muted); }
+  .sociallinks a:hover { color: var(--accent); }
+
+  /* ---------- Sections ---------- */
+  section { padding: 62px 0; border-top: 1px solid var(--border); }
+  .sec-head { margin-bottom: 30px; }
+  .sec-head h2 { font-size: clamp(22px, 3.2vw, 29px); margin: 0 0 6px; }
+  .sec-head p { color: var(--muted); margin: 0; max-width: 66ch; font-size: 15px; }
+
+  /* ---------- Operating wins ---------- */
+  .winsgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 18px; }
+  .win { border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 24px; }
+  .win-head { font-family: Sora, Inter, sans-serif; font-size: 18px; font-weight: 800; letter-spacing: -0.01em;
+    color: var(--accent); margin: 0 0 12px; }
+  .win-claim { color: var(--text); font-size: 15px; margin: 0 0 10px; font-weight: 600; line-height: 1.5; }
+  .win-detail { color: var(--muted); font-size: 14.2px; margin: 0; }
+
+  /* ---------- Selected work ---------- */
+  .work { display: grid; gap: 18px; }
+  .case { border: 1px solid var(--border); border-radius: var(--radius); background: var(--card);
+    padding: 26px; transition: border-color .18s ease, background .18s ease; }
+  .case:hover { border-color: var(--border-lit); background: var(--card-hover); }
+  .case-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .tag { font-size: 11.5px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); background: var(--bg-2); }
+  .tag.live { color: var(--ok); border-color: rgba(61,220,151,.32); }
+  .tag.own { color: var(--accent); border-color: rgba(58,209,255,.32); }
+  .case h3 { font-size: 20px; margin: 0 0 10px; }
+  .case p { color: var(--muted); margin: 0 0 14px; font-size: 15.2px; }
+  .case p strong { color: var(--text); font-weight: 600; }
+  .worth { font-size: 14.6px; color: var(--muted); border-left: 2px solid var(--border-lit);
+    padding-left: 14px; margin: 0 0 16px; }
+  .worth b { color: var(--text); font-weight: 600; }
+  .case-links { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; font-size: 14px; font-weight: 600; }
+  .stackline { font-size: 13.2px; color: var(--dim); margin-top: 15px; padding-top: 14px; border-top: 1px solid var(--border); }
+
+  /* ---------- Experience (alternating timeline) ---------- */
+  .timeline { position: relative; padding: 4px 0; }
+  .timeline::before { content: ""; position: absolute; left: 50%; transform: translateX(-50%);
+    top: 6px; bottom: 6px; width: 2px;
+    background: linear-gradient(180deg, var(--accent-2), var(--border) 80%, transparent); opacity: .6; }
+  .tl-item { position: relative; width: 50%; padding: 0 48px 40px 0; }
+  .tl-item:nth-child(even) { margin-left: 50%; padding: 0 0 40px 48px; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-item::before { content: ""; position: absolute; top: 3px; width: 15px; height: 15px; z-index: 2;
+    border-radius: 50%; background: var(--bg); border: 2px solid var(--border-lit); }
+  .tl-item:nth-child(odd)::before  { right: -8.5px; }
+  .tl-item:nth-child(even)::before { left: -8.5px; }
+  .tl-item::after { content: ""; position: absolute; top: 10px; width: 34px; height: 2px;
+    background: var(--border); z-index: 1; }
+  .tl-item:nth-child(odd)::after  { right: 8px; }
+  .tl-item:nth-child(even)::after { left: 8px; }
+  .tl-item.now::before { border-color: var(--ok); background: var(--ok); box-shadow: 0 0 0 4px rgba(61,220,151,.15); }
+  .tl-date { font-size: 12.6px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 9px; }
+  .tl-item:nth-child(odd) .tl-date { text-align: right; }
+  .tl-card { border: 1px solid var(--border); border-radius: var(--radius); background: var(--card);
+    padding: 22px 24px; transition: border-color .18s ease, background .18s ease; }
+  .tl-card:hover { border-color: var(--border-lit); background: var(--card-hover); }
+  .tl-card h3 { font-size: 18.5px; margin: 0 0 3px; }
+  .tl-org { color: var(--muted); font-size: 14.6px; margin: 0 0 4px; font-weight: 600; }
+  .tl-card ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .tl-card li { position: relative; padding-left: 20px; color: var(--muted); font-size: 14.8px; }
+  .tl-card li::before { content: ""; position: absolute; left: 4px; top: 9px; width: 6px; height: 6px;
+    border-radius: 50%; background: var(--accent); opacity: .7; }
+  .tl-card li strong { color: var(--text); font-weight: 600; }
+  .ex-also { color: var(--dim); font-size: 13.8px; margin: 30px 0 0; padding-top: 20px; border-top: 1px solid var(--border); }
+
+  /* ---------- Stack ---------- */
+  .chips { display: flex; flex-wrap: wrap; gap: 9px; }
+  .chip { border: 1px solid var(--border); background: var(--card); color: var(--muted);
+    padding: 8px 15px; border-radius: 999px; font-size: 14px; font-weight: 550; }
+  .stackgroup { margin-bottom: 22px; }
+  .stackgroup h4 { font-family: Inter, sans-serif; font-size: 12px; text-transform: uppercase;
+    letter-spacing: .09em; color: var(--dim); margin: 0 0 11px; font-weight: 700; }
+
+  /* ---------- Approach ---------- */
+  .approach-line { font-family: Sora, Inter, sans-serif; font-size: clamp(17px, 2.4vw, 22px);
+    font-weight: 650; line-height: 1.7; color: var(--text); max-width: 46ch; }
+  .approach-line span { color: var(--dim); font-weight: 400; padding: 0 6px; }
+
+  /* ---------- Contact ---------- */
+  .contact { text-align: center; padding: 72px 0 60px; }
+  .contact h2 { font-size: clamp(24px, 3.6vw, 33px); margin: 0 0 28px; }
+  .contactgrid { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+
+  footer { border-top: 1px solid var(--border); padding: 26px 0 34px; color: var(--dim); font-size: 13.4px;
+    display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 780px) {
+    .navtoggle { display: block; }
+    nav { display: none; position: absolute; left: 0; right: 0; top: 100%;
+      background: var(--bg-2); border-bottom: 1px solid var(--border); padding: 14px 22px 20px; }
+    nav.open { display: block; }
+    nav ul { flex-direction: column; gap: 15px; }
+    .hero { padding: 54px 0 44px; }
+    section { padding: 48px 0; }
+
+    .timeline::before { left: 7px; transform: none; }
+    .tl-item,
+    .tl-item:nth-child(even) { width: 100%; margin-left: 0; padding: 0 0 30px 34px; }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-item:nth-child(odd)::before,
+    .tl-item:nth-child(even)::before { left: 0; right: auto; }
+    .tl-item::after { display: none; }
+    .tl-item:nth-child(odd) .tl-date { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hrow">
+    <a class="brand" href="#top"><b>André Ramirez</b><span>Operator · Systems Thinker · Builder</span></a>
+    <button class="navtoggle" id="navtoggle" aria-label="Menu" aria-expanded="false">Menu</button>
+    <nav id="nav">
+      <ul>
+        <li><a href="#wins">Wins</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<div class="hero" id="top">
+  <div class="wrap">
+    <h1>André Ramirez</h1>
+    <p class="title-line">Leading Operations for Organizations</p>
+    <p class="role-line">Operator. Systems Thinker. Builder.</p>
+    <p class="lede-single">I solve operational problems and build systems that make businesses
+       easier to run.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#wins">See the wins</a>
+      <a class="btn btn-ghost" href="#work">See the work</a>
+    </div>
+    <div class="sociallinks">
+      <a href="https://linkedin.com/in/andre33" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/andreramirez201-commits" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:andreramirez201@gmail.com">Email</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== OPERATING WINS ===================== -->
+<section id="wins">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Selected operating wins</h2>
+      <p>Evidence, not adjectives.</p>
+    </div>
+    <div class="winsgrid">
+
+      <article class="win">
+        <p class="win-head">6 DAYS. ZERO DOWNTIME.</p>
+        <p class="win-claim">Moved a 40-person technology operation across five departments from
+           7,000 to 4,000 sq. ft. in six days, with zero disruption to customer service.</p>
+        <p class="win-detail">Coordinated engineering, vendors, infrastructure, networking, permits,
+           and insurance after the lease was finalized with six days to execute.</p>
+      </article>
+
+      <article class="win">
+        <p class="win-head">MANUAL &rarr; SYSTEM-DRIVEN.</p>
+        <p class="win-claim">Took over a largely manual wholesale operation and rebuilt it around
+           ERP, standardized inventory, KPI tracking, documented workflows and automation.</p>
+        <p class="win-detail">When off-the-shelf systems stopped fitting the operation, I began
+           building the tools around the way the business actually worked.</p>
+      </article>
+
+      <article class="win">
+        <p class="win-head">$9,000 FOUND.</p>
+        <p class="win-claim">Caught $9,000 our accounting software had been double-counting for
+           months.</p>
+        <p class="win-detail">Surfaced while migrating the books off the legacy accounting software
+           onto the system I wrote to replace it — a transaction posted twice under the old model.</p>
+      </article>
+
+      <article class="win">
+        <p class="win-head">CALLS &rarr; AI ASSISTED.</p>
+        <p class="win-claim">Built and deployed an AI voice agent inside my own business to handle
+           routine inbound calls and inventory inquiries.</p>
+        <p class="win-detail">In the pilot, it handled roughly 20% of inbound call volume — evidence
+           of where automation earns its keep, not a claim that it replaced the phone.</p>
+      </article>
+
+      <article class="win">
+        <p class="win-head">ONE SOURCE OF TRUTH.</p>
+        <p class="win-claim">Eliminated duplicate inventory records by making one inventory file
+           drive both the internal ledger and the public customer lookup.</p>
+        <p class="win-detail">One update propagates everywhere.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EXPERIENCE ===================== -->
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Experience</h2>
+    </div>
+
+    <div class="timeline">
+
+      <div class="tl-item now">
+        <div class="tl-date">2026 — Present</div>
+        <div class="tl-card">
+          <h3>Founder</h3>
+          <p class="tl-org">Innovative Power Solutions AI · AI implementation and automation for operating businesses</p>
+          <ul>
+            <li>Built <strong>Second Brain</strong>, a persistent memory system that lets an AI agent run alongside a real operation without losing context between sessions.</li>
+            <li>Design and ship <strong>voice and intake agents</strong> that answer calls, qualify, and route, on Vapi, Twilio, and n8n.</li>
+            <li>Build the integration layer that connects those agents to the systems a business already runs, rather than asking it to adopt a new one.</li>
+            <li>Enforce hard spend caps and rate limits on every public endpoint that calls a paid API, before launch, without exception.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2025 — 2026</div>
+        <div class="tl-card">
+          <h3>Owner / Operator</h3>
+          <p class="tl-org">IPS Radiators · Wholesale automotive cooling-parts distribution, Los Angeles</p>
+          <ul>
+            <li>Acquired an unstructured wholesale business and built the operating backbone: <strong>SOPs, logistics, KPI tracking, financial visibility</strong>.</li>
+            <li>Turned it system-driven, then <strong>wrote a replacement</strong> for its legacy ERP and accounting software myself.</li>
+            <li>Built the <strong>fitment-lookup and liquidation systems</strong> described above.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2022 — 2024</div>
+        <div class="tl-card">
+          <h3>Operations Manager</h3>
+          <p class="tl-org">Sohonet · Enterprise media technology infrastructure</p>
+          <ul>
+            <li>Ran operations for the Los Angeles office (~40 people) and accounts across <strong>North America and APAC</strong>.</li>
+            <li>Owned the <strong>SOP library</strong>, led procurement and vendor negotiations.</li>
+            <li>Led the <strong>office relocation</strong> described above.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">1996 — 2022</div>
+        <div class="tl-card">
+          <h3>Production Operations and Logistics</h3>
+          <p class="tl-org">Warner Bros · Paramount · Sony · Disney · commercial production</p>
+          <ul>
+            <li>Coordinated <strong>equipment, crews, and logistics</strong> for large-budget productions under fixed daily schedules with high cost-per-hour exposure.</li>
+            <li>Enforced safety and compliance on high-risk sets with zero tolerance for delay or incident.</li>
+            <li>Advanced to <strong>senior crew leadership</strong>, directing a department.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="ex-also">Also: published <em>The Wealthy Crew Member</em> (2013); shipped Track That
+       Cash to Google Play (2015), managing an international development team. B.S. International
+       Business, American University of Paris, Provost's List.</p>
+  </div>
+</section>
+
+<!-- ===================== SELECTED WORK ===================== -->
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Selected work</h2>
+      <p>Systems I designed, built, and put in front of real users. Each one labeled honestly: live
+         means it's running in production, prototype means it works and hasn't been handed to
+         customers.</p>
+    </div>
+
+    <div class="work">
+
+      <article class="case">
+        <div class="case-top">
+          <span class="tag live">Running daily</span>
+          <span class="tag own">Solo build</span>
+          <span class="tag">Agent memory · Private</span>
+        </div>
+        <h3>Second Brain, a persistent memory system built for organizations</h3>
+        <p>The operating system I run my own work on. Off-the-shelf assistants forget you between
+           sessions, so I built the memory layer myself: <strong>session hooks inject a curated
+           context file at start, every transcript is captured at session end, and a nightly
+           reflection job promotes only the durable signal into long-term memory</strong>. Recurring
+           processes get frozen into skills so the same work is never re-improvised twice.</p>
+        <p class="worth"><b>Worth reading for:</b> the security model. An operational AI system may
+           simultaneously touch private company data, untrusted external information and systems
+           capable of taking action, so permissions are explicitly defined by service.</p>
+        <div class="stackline">Claude Code · Claude Agent SDK · Python · SQLite FTS5 · cron · Obsidian
+           · private repo, no link by design</div>
+      </article>
+
+      <article class="case">
+        <div class="case-top">
+          <span class="tag live">Live</span>
+          <span class="tag own">Solo build</span>
+          <span class="tag">Voice AI</span>
+        </div>
+        <h3>Inbound voice agent, wholesale parts</h3>
+        <p>The agent behind the pilot above: an <strong>AI phone agent that answers inbound
+           calls</strong>, queries live inventory, quotes delivery, and hands off a structured
+           summary by email. Built on Vapi and Twilio with a Supabase backing store and n8n
+           workflows connecting it to the order pipeline.</p>
+        <p class="worth"><b>Worth reading for:</b> the adoption lesson. The model was never the
+           constraint. One customer segment simply refused to talk to a machine, and designing the
+           human fallback mattered more than tuning the agent.</p>
+        <div class="case-links">
+          <a href="tel:+16268227802">Call the demo line</a>
+        </div>
+        <div class="stackline">Vapi · Twilio · Supabase · n8n · Calendly</div>
+      </article>
+
+      <article class="case">
+        <div class="case-top">
+          <span class="tag">Working prototype</span>
+          <span class="tag own">Solo build</span>
+          <span class="tag">Voice AI · Legal intake</span>
+        </div>
+        <h3>Legal intake voice agent</h3>
+        <p>A <strong>24/7 intake agent for law firms</strong>, built end to end, not yet sold to
+           one. It runs the qualifying conversation a paralegal would run, captures matter details
+           against a structured intake schema, and delivers a written summary before the caller has
+           hung up. It runs in the browser, so you can hear it without picking up a phone.</p>
+        <p class="worth"><b>Worth reading for:</b> the intake schema. The hard part isn't getting an
+           agent to talk. It's getting a consistent, complete, structured record out of an
+           unstructured, often emotional phone call, every time.</p>
+        <div class="case-links">
+          <a href="https://innovativepowersolutions.ai/legal/demo.html" target="_blank" rel="noopener">Hear it now</a>
+        </div>
+        <div class="stackline">Vapi · n8n · structured intake schema · webhook to email</div>
+      </article>
+
+      <article class="case">
+        <div class="case-top">
+          <span class="tag live">Live</span>
+          <span class="tag">Inventory · Web</span>
+        </div>
+        <h3>Inventory and liquidation system</h3>
+        <p>The system behind "One Source of Truth" above: a <strong>public lookup and offer page
+           backed by a single source of truth</strong>, with a one-command path from "this unit sold"
+           to the live site reflecting it.</p>
+        <div class="case-links">
+          <a href="https://ipsautoparts.com" target="_blank" rel="noopener">Live site</a>
+        </div>
+        <div class="stackline">Python · PHP · JSON catalog · Docker on VPS · nginx · Cloudflare</div>
+      </article>
+
+      <article class="case">
+        <div class="case-top">
+          <span class="tag">Not code</span>
+        </div>
+        <h3>Sale-to-Cash Editor</h3>
+        <p>A structured diagnostic that traces <strong>how a business converts a sale into collected
+           cash</strong> and names exactly where the process breaks. It critiques and refuses to
+           rewrite, which is the whole design constraint. This is operating judgment written down.</p>
+        <div class="case-links">
+          <a href="https://github.com/andreramirez201-commits/sale-to-cash-editor" target="_blank" rel="noopener">Source</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== STACK ===================== -->
+<section id="stack">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Stack</h2>
+      <p>What I actually reach for. Listed because I have shipped something with it, not because I have read about it.</p>
+    </div>
+
+    <div class="stackgroup">
+      <h4>Build</h4>
+      <div class="chips">
+        <span class="chip">TypeScript</span><span class="chip">Next.js</span><span class="chip">React</span>
+        <span class="chip">Node</span><span class="chip">Python</span><span class="chip">PostgreSQL</span>
+      </div>
+    </div>
+
+    <div class="stackgroup">
+      <h4>AI and automation</h4>
+      <div class="chips">
+        <span class="chip">Claude API</span><span class="chip">Claude Code</span><span class="chip">n8n</span>
+        <span class="chip">Vapi</span><span class="chip">Twilio</span><span class="chip">Supabase</span>
+      </div>
+    </div>
+
+    <div class="stackgroup">
+      <h4>Business systems</h4>
+      <div class="chips">
+        <span class="chip">Odoo ERP</span><span class="chip">Docker on VPS</span><span class="chip">nginx</span><span class="chip">Cloudflare</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== APPROACH ===================== -->
+<section id="approach">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>How I work</h2>
+    </div>
+    <p class="approach-line">Understand the operation.<span>&rarr;</span>Find the constraint.<span>&rarr;</span>Build the system.<span>&rarr;</span>Automate where it earns its keep.</p>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2>Building something complicated? Let's talk.</h2>
+    <div class="contactgrid">
+      <a class="btn btn-primary" href="mailto:andreramirez201@gmail.com">andreramirez201@gmail.com</a>
+      <a class="btn btn-ghost" href="https://linkedin.com/in/andre33" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn btn-ghost" href="https://github.com/andreramirez201-commits" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;width:100%;">
+    <span>André Ramirez · Los Angeles, CA</span>
+    <span>Built and deployed by hand.</span>
+  </div>
+</footer>
+
+<script>
+  var t = document.getElementById('navtoggle'), n = document.getElementById('nav');
+  t.addEventListener('click', function () {
+    var open = n.classList.toggle('open');
+    t.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  n.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A') { n.classList.remove('open'); t.setAttribute('aria-expanded', 'false'); }
+  });
+</script>
+
+</body>
+</html>
