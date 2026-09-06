@@ -181,32 +181,8 @@
     border-radius: 50%; background: var(--accent); opacity: .7; }
   .tl-card li strong { color: var(--text); font-weight: 600; }
 
-  /* ---------- Work tree (branching, root at top, staggered columns) ---------- */
-  .worktree { position: relative; padding: 8px 0 0; }
-  .wt-root { position: relative; display: flex; justify-content: center; margin-bottom: 4px; }
-  .wt-root-node { width: 13px; height: 13px; border-radius: 50%; background: var(--accent);
-    box-shadow: 0 0 0 5px rgba(58,209,255,.14); position: relative; z-index: 2; }
-  .worktree::before { content: ""; position: absolute; left: 50%; top: 13px; bottom: 0;
-    width: 2px; transform: translateX(-50%);
-    background: linear-gradient(180deg, var(--accent-2), var(--border) 65%, transparent); opacity: .55; }
-  .wt-cols { display: flex; align-items: flex-start; }
-  .wt-col { flex: 0 0 50%; max-width: 50%; }
-  .wt-col-left { order: 1; }
-  .wt-col-right { order: 2; margin-top: 96px; }
-  .wt-item { position: relative; padding: 0 0 28px; }
-  .wt-item:last-child { padding-bottom: 0; }
-  .wt-col-left .wt-item  { padding-right: 56px; }
-  .wt-col-right .wt-item { padding-left: 56px; }
-  .wt-item::before { content: ""; position: absolute; top: 22px; width: 11px; height: 11px;
-    border-radius: 50%; background: var(--bg); border: 2px solid var(--border-lit); z-index: 3; }
-  .wt-col-left .wt-item::before  { right: -6.5px; }
-  .wt-col-right .wt-item::before { left: -6.5px; }
-  .wt-item.now::before { border-color: var(--ok); background: var(--ok); box-shadow: 0 0 0 4px rgba(61,220,151,.15); }
-  .wt-item::after { content: ""; position: absolute; top: 0; width: 56px; height: 64px; z-index: 1;
-    background-repeat: no-repeat; background-size: 100% 100%;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 64'%3E%3Cpath d='M0 4 C 30 4, 30 27, 56 27' stroke='%232a3446' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); }
-  .wt-col-left .wt-item::after  { right: 0; transform: scaleX(-1); }
-  .wt-col-right .wt-item::after { left: 0; }
+  /* ---------- Work list (single column, in order) ---------- */
+  .worklist { display: grid; gap: 24px; }
 
   /* ---------- Also / education ---------- */
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
@@ -246,25 +222,6 @@
     .tl-item:nth-child(even)::before { left: 0; right: auto; }
     .tl-item::after { display: none; }
     .tl-item:nth-child(odd) .tl-date { text-align: left; }
-
-    /* work tree collapses to a single left spine, in original reading order */
-    .worktree::before { left: 6px; transform: none; }
-    .wt-root { justify-content: flex-start; padding-left: 1px; }
-    .wt-cols { display: flex; flex-direction: column; }
-    .wt-col-left, .wt-col-right { display: contents; }
-    .wt-col-left .wt-item, .wt-col-right .wt-item { max-width: 100%; padding: 0 0 34px 46px; }
-    .wt-item:last-child { padding-bottom: 0; }
-    .wt-col-left .wt-item::before, .wt-col-right .wt-item::before { left: -1px; right: auto; }
-    .wt-col-left .wt-item::after, .wt-col-right .wt-item::after {
-      left: 0; right: auto; width: 46px; transform: none;
-    }
-    .wt-col-right .wt-item:nth-child(1) { order: 1; }
-    .wt-col-left  .wt-item:nth-child(1) { order: 2; }
-    .wt-col-right .wt-item:nth-child(2) { order: 3; }
-    .wt-col-left  .wt-item:nth-child(2) { order: 4; }
-    .wt-col-right .wt-item:nth-child(3) { order: 5; }
-    .wt-col-left  .wt-item:nth-child(3) { order: 6; }
-    .wt-col-right .wt-item:nth-child(4) { order: 7; }
   }
 </style>
 </head>
@@ -430,166 +387,142 @@
          live means it is running in production, prototype means it works and has not been handed to customers.</p>
     </div>
 
-    <div class="worktree">
-      <div class="wt-root"><div class="wt-root-node"></div></div>
+    <div class="worklist">
 
-      <div class="wt-cols">
-        <div class="wt-col wt-col-right">
-
-          <div class="wt-item now">
-          <article class="case">
-            <div class="case-top">
-              <span class="tag live">Running daily</span>
-              <span class="tag own">Solo build</span>
-              <span class="tag">Agent memory · Private</span>
-            </div>
-            <h3>Second Brain, a persistent memory system for an AI agent</h3>
-            <p>The operating system I run my own work on. Off-the-shelf assistants forget you between
-               sessions, so I built the memory layer myself: <strong>session hooks inject a curated
-               context file at start, every transcript is captured at session end, and a nightly
-               reflection job promotes only the durable signal into long-term memory</strong>. Everything
-               it declines to promote stays retrievable through a full-text index over the logs. Recurring
-               processes get frozen into skills so the same work is never re-improvised twice.</p>
-            <p>It is built on <strong>Interpretable Context Methodology</strong>: the folder structure
-               is the agent architecture, every context file is plain markdown a human can read and
-               audit, and a session loads only the layer it needs instead of the whole workspace. Nothing
-               about how it thinks is buried in a vector store I cannot open and correct.</p>
-            <p class="worth"><b>Worth reading for:</b> the security boundary. Any agent with access to
-               your real life trips the lethal trifecta at once, private data plus untrusted incoming
-               content plus a way to send things out. You cannot remove all three and still have it be
-               useful, so each one gets constrained deliberately, and permissions are declared per service
-               in a single file I can read in one sitting. That decision is why it holds finances and
-               private notes and I still sleep fine.</p>
-            <div class="stackline">Claude Code · Claude Agent SDK · Python · SQLite FTS5 · cron · Obsidian
-               · private repo, no link by design</div>
-          </article>
-          </div>
-
-          <div class="wt-item">
-          <article class="case">
-            <div class="case-top">
-              <span class="tag live">Live</span>
-              <span class="tag own">Solo build</span>
-              <span class="tag">Voice AI</span>
-            </div>
-            <h3>Inbound voice agent, wholesale parts</h3>
-            <p>An <strong>AI phone agent that answers inbound calls</strong>, queries live inventory, quotes
-               delivery, and hands off a structured summary by email. Built on Vapi and Twilio with a
-               Supabase backing store and n8n workflows connecting it to the order pipeline. Deployed
-               against a real customer base, not a sandbox.</p>
-            <p class="worth"><b>Worth reading for:</b> the adoption lesson. The model was never the
-               constraint. One customer segment simply refused to talk to a machine, and that is where most
-               AI pilots actually die. Designing the human fallback was more valuable than tuning the agent.</p>
-            <div class="case-links">
-              <a href="tel:+16268227802">Call the demo line</a>
-            </div>
-            <div class="stackline">Vapi · Twilio · Supabase · n8n · Calendly</div>
-          </article>
-          </div>
-
-          <div class="wt-item">
-          <article class="case">
-            <div class="case-top">
-              <span class="tag own">Solo build</span>
-              <span class="tag">TypeScript monorepo · Postgres</span>
-            </div>
-            <h3>Ticket Alert</h3>
-            <p>Polls Ticketmaster and <strong>texts a subscriber list the moment a show goes on sale</strong>.
-               TypeScript pnpm monorepo, Express 5, Postgres with Drizzle, Zod validation, Orval codegen
-               from an OpenAPI spec.</p>
-            <p class="worth"><b>Worth reading for:</b> the deduplication design. Sending one SMS is trivial.
-               Not sending the same one four hundred times across restarts and redeploys is the actual
-               problem, solved with a durable seen-set, silent seeding on first boot, and alerting on
-               status transitions rather than status.</p>
-            <div class="case-links">
-              <a href="https://github.com/andreramirez201-commits/Ticket-Notify-Bot" target="_blank" rel="noopener">Source</a>
-            </div>
-            <div class="stackline">TypeScript · Express 5 · PostgreSQL · Drizzle · Zod · Orval · Twilio</div>
-          </article>
-          </div>
-
-          <div class="wt-item">
-          <article class="case">
-            <div class="case-top">
-              <span class="tag">Not code</span>
-            </div>
-            <h3>Sale-to-Cash Editor</h3>
-            <p>A structured diagnostic that traces <strong>how a business converts a sale into collected
-               cash</strong> and names exactly where the process breaks. It critiques and refuses to
-               rewrite, which is the whole design constraint. This is operating judgment written down.</p>
-            <div class="case-links">
-              <a href="https://github.com/andreramirez201-commits/sale-to-cash-editor" target="_blank" rel="noopener">Source</a>
-            </div>
-          </article>
-          </div>
-
+      <article class="case">
+        <div class="case-top">
+          <span class="tag live">Running daily</span>
+          <span class="tag own">Solo build</span>
+          <span class="tag">Agent memory · Private</span>
         </div>
+        <h3>Second Brain, a persistent memory system for an AI agent</h3>
+        <p>The operating system I run my own work on. Off-the-shelf assistants forget you between
+           sessions, so I built the memory layer myself: <strong>session hooks inject a curated
+           context file at start, every transcript is captured at session end, and a nightly
+           reflection job promotes only the durable signal into long-term memory</strong>. Everything
+           it declines to promote stays retrievable through a full-text index over the logs. Recurring
+           processes get frozen into skills so the same work is never re-improvised twice.</p>
+        <p>It is built on <strong>Interpretable Context Methodology</strong>: the folder structure
+           is the agent architecture, every context file is plain markdown a human can read and
+           audit, and a session loads only the layer it needs instead of the whole workspace. Nothing
+           about how it thinks is buried in a vector store I cannot open and correct.</p>
+        <p class="worth"><b>Worth reading for:</b> the security boundary. Any agent with access to
+           your real life trips the lethal trifecta at once, private data plus untrusted incoming
+           content plus a way to send things out. You cannot remove all three and still have it be
+           useful, so each one gets constrained deliberately, and permissions are declared per service
+           in a single file I can read in one sitting. That decision is why it holds finances and
+           private notes and I still sleep fine.</p>
+        <div class="stackline">Claude Code · Claude Agent SDK · Python · SQLite FTS5 · cron · Obsidian
+           · private repo, no link by design</div>
+      </article>
 
-        <div class="wt-col wt-col-left">
-
-          <div class="wt-item">
-          <article class="case">
-            <div class="case-top">
-              <span class="tag live">Live</span>
-              <span class="tag own">Solo build</span>
-              <span class="tag">Next.js 15 · Claude API · Stripe</span>
-            </div>
-            <h3>Job Search Wizard</h3>
-            <p>An <strong>LLM resume rewriter</strong> with a free ATS-scoring funnel and a $9 Stripe checkout.
-               Next.js 15, React 19, TypeScript, Claude streamed server side. No auth and no database by
-               design, so there is no user data to leak. Built, shipped, and deployed solo.</p>
-            <p class="worth"><b>Worth reading for:</b> the three-layer spend guardrail on a public,
-               unauthenticated endpoint that calls a paid API, and the honest note in the README about why
-               the in-app rate limiter is not the thing that actually bounds the bill.</p>
-            <div class="case-links">
-              <a href="https://job-search-wizard-andre-deploys-ai.vercel.app" target="_blank" rel="noopener">Live site</a>
-              <a href="https://github.com/andreramirez201-commits/job-search-wizard" target="_blank" rel="noopener">Source</a>
-            </div>
-            <div class="stackline">Next.js 15 · React 19 · TypeScript · Claude API · Stripe · Vercel</div>
-          </article>
-          </div>
-
-          <div class="wt-item">
-          <article class="case">
-            <div class="case-top">
-              <span class="tag live">Live</span>
-              <span class="tag own">Solo build</span>
-              <span class="tag">Voice AI · Legal intake</span>
-            </div>
-            <h3>Legal intake voice agent</h3>
-            <p>A <strong>24/7 intake agent for law firms</strong>. It answers, runs the qualifying
-               conversation a paralegal would run, captures the matter details against a structured intake
-               schema, and delivers a written summary to the firm before the caller has hung up. It runs in
-               the browser, so you can hear it without picking up a phone.</p>
-            <p class="worth"><b>Worth reading for:</b> the intake schema. The hard part is not getting an
-               agent to talk. It is getting a consistent, complete, structured record out of an unstructured
-               and often emotional phone call, every time, including the calls that go sideways.</p>
-            <div class="case-links">
-              <a href="https://innovativepowersolutions.ai/legal/demo.html" target="_blank" rel="noopener">Hear it now</a>
-            </div>
-            <div class="stackline">Vapi · n8n · structured intake schema · webhook to email</div>
-          </article>
-          </div>
-
-          <div class="wt-item">
-          <article class="case">
-            <div class="case-top">
-              <span class="tag live">Live</span>
-              <span class="tag">Inventory · Web</span>
-            </div>
-            <h3>Inventory and liquidation system</h3>
-            <p>The operating system for a 2,000-line parts catalog: a <strong>public lookup and offer
-               page backed by a single source of truth</strong>, with a one-command path from "this unit
-               sold" to the live site reflecting it. Removed the spreadsheet reconciliation step entirely.</p>
-            <p class="worth"><b>Worth reading for:</b> the boring part that mattered. The value was not the
-               web page. It was that the stock number a customer sees and the stock number in the ledger
-               can no longer disagree.</p>
-            <div class="stackline">Python · PHP · JSON catalog · Docker on VPS · nginx · Cloudflare</div>
-          </article>
-          </div>
-
+      <article class="case">
+        <div class="case-top">
+          <span class="tag live">Live</span>
+          <span class="tag own">Solo build</span>
+          <span class="tag">Next.js 15 · Claude API · Stripe</span>
         </div>
-      </div>
+        <h3>Job Search Wizard</h3>
+        <p>An <strong>LLM resume rewriter</strong> with a free ATS-scoring funnel and a $9 Stripe checkout.
+           Next.js 15, React 19, TypeScript, Claude streamed server side. No auth and no database by
+           design, so there is no user data to leak. Built, shipped, and deployed solo.</p>
+        <p class="worth"><b>Worth reading for:</b> the three-layer spend guardrail on a public,
+           unauthenticated endpoint that calls a paid API, and the honest note in the README about why
+           the in-app rate limiter is not the thing that actually bounds the bill.</p>
+        <div class="case-links">
+          <a href="https://job-search-wizard-andre-deploys-ai.vercel.app" target="_blank" rel="noopener">Live site</a>
+          <a href="https://github.com/andreramirez201-commits/job-search-wizard" target="_blank" rel="noopener">Source</a>
+        </div>
+        <div class="stackline">Next.js 15 · React 19 · TypeScript · Claude API · Stripe · Vercel</div>
+      </article>
+
+      <article class="case">
+        <div class="case-top">
+          <span class="tag live">Live</span>
+          <span class="tag own">Solo build</span>
+          <span class="tag">Voice AI</span>
+        </div>
+        <h3>Inbound voice agent, wholesale parts</h3>
+        <p>An <strong>AI phone agent that answers inbound calls</strong>, queries live inventory, quotes
+           delivery, and hands off a structured summary by email. Built on Vapi and Twilio with a
+           Supabase backing store and n8n workflows connecting it to the order pipeline. Deployed
+           against a real customer base, not a sandbox.</p>
+        <p class="worth"><b>Worth reading for:</b> the adoption lesson. The model was never the
+           constraint. One customer segment simply refused to talk to a machine, and that is where most
+           AI pilots actually die. Designing the human fallback was more valuable than tuning the agent.</p>
+        <div class="case-links">
+          <a href="tel:+16268227802">Call the demo line</a>
+        </div>
+        <div class="stackline">Vapi · Twilio · Supabase · n8n · Calendly</div>
+      </article>
+
+      <article class="case">
+        <div class="case-top">
+          <span class="tag live">Live</span>
+          <span class="tag own">Solo build</span>
+          <span class="tag">Voice AI · Legal intake</span>
+        </div>
+        <h3>Legal intake voice agent</h3>
+        <p>A <strong>24/7 intake agent for law firms</strong>. It answers, runs the qualifying
+           conversation a paralegal would run, captures the matter details against a structured intake
+           schema, and delivers a written summary to the firm before the caller has hung up. It runs in
+           the browser, so you can hear it without picking up a phone.</p>
+        <p class="worth"><b>Worth reading for:</b> the intake schema. The hard part is not getting an
+           agent to talk. It is getting a consistent, complete, structured record out of an unstructured
+           and often emotional phone call, every time, including the calls that go sideways.</p>
+        <div class="case-links">
+          <a href="https://innovativepowersolutions.ai/legal/demo.html" target="_blank" rel="noopener">Hear it now</a>
+        </div>
+        <div class="stackline">Vapi · n8n · structured intake schema · webhook to email</div>
+      </article>
+
+      <article class="case">
+        <div class="case-top">
+          <span class="tag own">Solo build</span>
+          <span class="tag">TypeScript monorepo · Postgres</span>
+        </div>
+        <h3>Ticket Alert</h3>
+        <p>Polls Ticketmaster and <strong>texts a subscriber list the moment a show goes on sale</strong>.
+           TypeScript pnpm monorepo, Express 5, Postgres with Drizzle, Zod validation, Orval codegen
+           from an OpenAPI spec.</p>
+        <p class="worth"><b>Worth reading for:</b> the deduplication design. Sending one SMS is trivial.
+           Not sending the same one four hundred times across restarts and redeploys is the actual
+           problem, solved with a durable seen-set, silent seeding on first boot, and alerting on
+           status transitions rather than status.</p>
+        <div class="case-links">
+          <a href="https://github.com/andreramirez201-commits/Ticket-Notify-Bot" target="_blank" rel="noopener">Source</a>
+        </div>
+        <div class="stackline">TypeScript · Express 5 · PostgreSQL · Drizzle · Zod · Orval · Twilio</div>
+      </article>
+
+      <article class="case">
+        <div class="case-top">
+          <span class="tag live">Live</span>
+          <span class="tag">Inventory · Web</span>
+        </div>
+        <h3>Inventory and liquidation system</h3>
+        <p>The operating system for a 2,000-line parts catalog: a <strong>public lookup and offer
+           page backed by a single source of truth</strong>, with a one-command path from "this unit
+           sold" to the live site reflecting it. Removed the spreadsheet reconciliation step entirely.</p>
+        <p class="worth"><b>Worth reading for:</b> the boring part that mattered. The value was not the
+           web page. It was that the stock number a customer sees and the stock number in the ledger
+           can no longer disagree.</p>
+        <div class="stackline">Python · PHP · JSON catalog · Docker on VPS · nginx · Cloudflare</div>
+      </article>
+
+      <article class="case">
+        <div class="case-top">
+          <span class="tag">Not code</span>
+        </div>
+        <h3>Sale-to-Cash Editor</h3>
+        <p>A structured diagnostic that traces <strong>how a business converts a sale into collected
+           cash</strong> and names exactly where the process breaks. It critiques and refuses to
+           rewrite, which is the whole design constraint. This is operating judgment written down.</p>
+        <div class="case-links">
+          <a href="https://github.com/andreramirez201-commits/sale-to-cash-editor" target="_blank" rel="noopener">Source</a>
+        </div>
+      </article>
+
     </div>
   </div>
 </section>
