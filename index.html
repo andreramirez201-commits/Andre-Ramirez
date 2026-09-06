@@ -130,7 +130,6 @@
     letter-spacing: .09em; color: var(--dim); margin: 0 0 11px; font-weight: 700; }
 
   /* ---------- Projects ---------- */
-  .work { display: grid; gap: 18px; }
   .case { border: 1px solid var(--border); border-radius: var(--radius); background: var(--card);
     padding: 26px; transition: border-color .18s ease, background .18s ease; }
   .case:hover { border-color: var(--border-lit); background: var(--card-hover); }
@@ -182,6 +181,29 @@
     border-radius: 50%; background: var(--accent); opacity: .7; }
   .tl-card li strong { color: var(--text); font-weight: 600; }
 
+  /* ---------- Work tree (branching, root at top) ---------- */
+  .worktree { position: relative; padding: 8px 0 0; }
+  .wt-root { position: relative; display: flex; justify-content: center; margin-bottom: 4px; }
+  .wt-root-node { width: 13px; height: 13px; border-radius: 50%; background: var(--accent);
+    box-shadow: 0 0 0 5px rgba(58,209,255,.14); position: relative; z-index: 2; }
+  .worktree::before { content: ""; position: absolute; left: 50%; top: 13px; bottom: 40px;
+    width: 2px; transform: translateX(-50%);
+    background: linear-gradient(180deg, var(--accent-2), var(--border) 65%, transparent); opacity: .55; }
+  .wt-item { position: relative; width: 50%; padding: 0 0 28px; }
+  .wt-item:nth-child(odd)  { padding-right: 56px; }
+  .wt-item:nth-child(even) { margin-left: 50%; padding-left: 56px; }
+  .wt-item:last-child { padding-bottom: 0; }
+  .wt-item::before { content: ""; position: absolute; top: 22px; width: 11px; height: 11px;
+    border-radius: 50%; background: var(--bg); border: 2px solid var(--border-lit); z-index: 3; }
+  .wt-item:nth-child(odd)::before  { right: -6.5px; }
+  .wt-item:nth-child(even)::before { left: -6.5px; }
+  .wt-item.now::before { border-color: var(--ok); background: var(--ok); box-shadow: 0 0 0 4px rgba(61,220,151,.15); }
+  .wt-item::after { content: ""; position: absolute; top: 0; width: 56px; height: 64px; z-index: 1;
+    background-repeat: no-repeat; background-size: 100% 100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 64'%3E%3Cpath d='M0 4 C 30 4, 30 27, 56 27' stroke='%232a3446' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); }
+  .wt-item:nth-child(odd)::after  { right: 0; transform: scaleX(-1); }
+  .wt-item:nth-child(even)::after { left: 0; }
+
   /* ---------- Also / education ---------- */
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   .panel { border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 24px; }
@@ -220,6 +242,15 @@
     .tl-item:nth-child(even)::before { left: 0; right: auto; }
     .tl-item::after { display: none; }
     .tl-item:nth-child(odd) .tl-date { text-align: left; }
+
+    /* work tree collapses to a single left spine */
+    .worktree::before { left: 6px; transform: none; }
+    .wt-root { justify-content: flex-start; padding-left: 1px; }
+    .wt-item,
+    .wt-item:nth-child(even) { width: 100%; margin-left: 0; padding: 0 0 34px 46px; }
+    .wt-item:last-child { padding-bottom: 0; }
+    .wt-item::before { left: -1px; right: auto; }
+    .wt-item::after { left: 0; right: auto; width: 46px; transform: none; }
   }
 </style>
 </head>
@@ -385,8 +416,10 @@
          live means it is running in production, prototype means it works and has not been handed to customers.</p>
     </div>
 
-    <div class="work">
+    <div class="worktree">
+      <div class="wt-root"><div class="wt-root-node"></div></div>
 
+      <div class="wt-item now">
       <article class="case">
         <div class="case-top">
           <span class="tag live">Running daily</span>
@@ -413,7 +446,9 @@
         <div class="stackline">Claude Code · Claude Agent SDK · Python · SQLite FTS5 · cron · Obsidian
            · private repo, no link by design</div>
       </article>
+      </div>
 
+      <div class="wt-item">
       <article class="case">
         <div class="case-top">
           <span class="tag live">Live</span>
@@ -433,7 +468,9 @@
         </div>
         <div class="stackline">Next.js 15 · React 19 · TypeScript · Claude API · Stripe · Vercel</div>
       </article>
+      </div>
 
+      <div class="wt-item">
       <article class="case">
         <div class="case-top">
           <span class="tag live">Live</span>
@@ -453,7 +490,9 @@
         </div>
         <div class="stackline">Vapi · Twilio · Supabase · n8n · Calendly</div>
       </article>
+      </div>
 
+      <div class="wt-item">
       <article class="case">
         <div class="case-top">
           <span class="tag live">Live</span>
@@ -473,7 +512,9 @@
         </div>
         <div class="stackline">Vapi · n8n · structured intake schema · webhook to email</div>
       </article>
+      </div>
 
+      <div class="wt-item">
       <article class="case">
         <div class="case-top">
           <span class="tag own">Solo build</span>
@@ -492,7 +533,9 @@
         </div>
         <div class="stackline">TypeScript · Express 5 · PostgreSQL · Drizzle · Zod · Orval · Twilio</div>
       </article>
+      </div>
 
+      <div class="wt-item">
       <article class="case">
         <div class="case-top">
           <span class="tag live">Live</span>
@@ -507,7 +550,9 @@
            can no longer disagree.</p>
         <div class="stackline">Python · PHP · JSON catalog · Docker on VPS · nginx · Cloudflare</div>
       </article>
+      </div>
 
+      <div class="wt-item">
       <article class="case">
         <div class="case-top">
           <span class="tag">Not code</span>
@@ -520,6 +565,7 @@
           <a href="https://github.com/andreramirez201-commits/sale-to-cash-editor" target="_blank" rel="noopener">Source</a>
         </div>
       </article>
+      </div>
 
     </div>
   </div>
